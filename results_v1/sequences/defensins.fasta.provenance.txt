@@ -1,0 +1,73 @@
+===============================================================================
+PROVENANCE — defensins.fasta
+RECONSTRUCTED FROM SHELL HISTORY — NOT A MAINTAINED SOURCE FILE
+===============================================================================
+
+Why this is a sidecar and not an in-file header
+-----------------------------------------------
+The other recovered artefacts in this package (scripts/reconstructed/*.py) carry
+their provenance as a leading comment block. FASTA has no comment syntax that
+modern parsers accept -- a '#' or ';' preamble is read as sequence or raises an
+error in Biopython, samtools, HMMER and BLAST. Embedding a header would corrupt
+the file for its intended use.
+
+The FASTA is therefore held byte-verbatim and its provenance recorded here, in a
+sidecar of the same basename. This is a deliberate deviation from the header
+treatment applied to the .py files, made so the sequence file remains parseable.
+
+Origin
+------
+  Source            : ~/.bash_history
+  Source line range : 632-637 (heredoc body: 633-636)
+  Original command  : cat > /tmp/defensins.fasta << 'EOF'
+  Original path     : /tmp/defensins.fasta
+  Extracted         : 19 August 2026
+  Stage             : hero-gene characterisation (MSTRG.31255.1)
+
+This file was never part of the pipeline. It was written to /tmp during an
+interactive session on 19 April 2026 to compare the MSTRG.31255.1 peptide against
+a UniProt homolog. /tmp has since been cleared; the original no longer exists.
+The four lines below the heredoc marker were recovered verbatim -- no sequence,
+header, line break or character has been altered.
+
+Contents
+--------
+  >MSTRG_31255_1_Eleusine_coracana        104 aa
+      The lead candidate's predicted peptide. This is one of only TWO surviving
+      copies of this sequence; the other is results/sequences/top50_clean.pep.
+      The two were verified identical during assembly of this package.
+      10 cysteines total; 8 of them fall in the mature region (residues 29-104)
+      downstream of the predicted signal peptide.
+
+  >A0A0D9XDT2_Leersia_perrieri            133 aa
+      UniProt entry for a Leersia perrieri protein, retrieved from the UniProt
+      REST API during the same session and used as the comparison sequence.
+
+Interpretation caveat
+---------------------
+The filename "defensins" reflects a working hypothesis formed during that
+interactive session. It is NOT an annotation, and no defensin family assignment
+was ever made:
+
+  - No HMM, profile, or family-level search placed either sequence in a defensin
+    family.
+  - InterProScan returned NO Pfam, PANTHER, Gene3D, SUPERFAMILY or CDD signature
+    for MSTRG.31255.1 -- only Phobius/SignalP/TMHMM features.
+  - The comparison was a visual cysteine-position listing produced by
+    scripts/reconstructed/heroGene01_cysteine_comparison_MSTRG31255.py, not an
+    alignment. That script's own fallback path ran only when clustalw and muscle
+    were both unavailable, which was the case -- neither is installed.
+
+Treat the filename as a label from an exploratory session, not as evidence.
+
+Related files in this package
+-----------------------------
+  results/sequences/top50_clean.pep
+      Independent copy of the same MSTRG.31255.1 peptide (verified identical).
+  scripts/reconstructed/heroGene01_cysteine_comparison_MSTRG31255.py
+      The script that consumed these sequences.
+  scripts/reconstructed/heroGene02_ncbi_blastp_web_submit.py
+  scripts/reconstructed/heroGene03_ncbi_blastp_web_submit_v2.py
+      NCBI/EBI blastp submissions of the 76 aa mature peptide. Results were
+      printed to the terminal only and were not retained.
+===============================================================================

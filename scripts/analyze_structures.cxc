@@ -1,0 +1,243 @@
+# =============================================================================
+# DEPOSITION NOTE — ADDED 28 AUGUST 2026. THIS SCRIPT DOES NOT RUN AS WRITTEN.
+# =============================================================================
+#
+# This file is retained as a PROVENANCE ARTEFACT ONLY. Everything below this
+# header block is the script exactly as it existed on 19 April 2026; only this
+# block has been prepended. It is the sole record of how the ChimeraX
+# visualisation was attempted, and it is deposited for that reason alone.
+#
+# DEFECT 1 — three of the four `open` statements name files that do not exist.
+# Every `open` below requests
+#     ..._relaxed_rank_001_alphafold2_ptm_model_1_seed_000.pdb
+# but ColabFold ranks models per prediction, and the rank_001 model number
+# differs for every candidate. Verified against the deposited output in
+# ../structures/:
+#
+#     candidate         script expects    actually exists
+#     MSTRG_4687_1      model_1           model_5     <-- does not exist
+#     MSTRG_45757_2     model_1           model_1     <-- correct
+#     MSTRG_6647_1      model_1           model_3     <-- does not exist
+#     MSTRG_45758_1     model_1           model_3     <-- does not exist
+#
+# ChimeraX will fail on the first missing file. The script therefore CANNOT
+# have produced the renders it names, and those renders are not deposited:
+# see DEFECT 3.
+#
+# DEFECT 2 — MSTRG_31255_1, the lead candidate, is never opened. No figure
+# this script produces can depict it.
+#
+# DEFECT 3 — the outputs it names (MSTRG_*_pLDDT.png, MSTRG_*_vs_rice.png,
+# all_4_proteins_overview.png, four *_spin.mp4) no longer exist anywhere.
+# Six renamed PNGs (image1-image6) did survive, but their subject could never
+# be established and none of them can show the lead candidate, so they were
+# REMOVED from this package on 28 August 2026 rather than deposited
+# unattributable. See ../docs/VERIFICATION.md section 1.4.
+#
+# DEFECT 4 — all paths are absolute Windows paths under C:\Users\Joshua\.
+# The ColabFold folders were moved to D:\Downloads D\ on 5 August 2026 and are
+# deposited here under ../structures/. Repoint the script there to use it.
+# These absolute paths are retained deliberately as provenance — they are the
+# documentary evidence for the relocation recorded in docs/MANIFEST.md section 9.4 —
+# and the account name they contain is the author's own.
+#
+# THIS SCRIPT IS NOT THE RECORD OF THE PREDICTION SETTINGS.
+# An earlier version of docs/MANIFEST.md claimed it was. That claim was wrong
+# and has been withdrawn. The authoritative record is
+#     ../structures/<candidate>/config.json
+# which carries the ColabFold version and commit, model type, MSA mode,
+# recycle count, seed, ranking metric and relaxation parameters, and
+#     ../structures/<candidate>/log.txt
+# which records the per-model pLDDT/pTM and the actual final ranking.
+# =============================================================================
+
+# ============================================================
+# Finger Millet Novel Genes - ChimeraX Automated Analysis
+# Author: Joshua (finger millet project)
+#
+# HOW TO RUN:
+#   In ChimeraX command box type:
+#       open C:\Users\Joshua\Desktop\analyze_structures.cxc
+#
+# BEFORE RUNNING: Create the figures folder by opening
+#   PowerShell and typing:
+#       mkdir C:\Users\Joshua\Desktop\figures
+# ============================================================
+
+close all
+set bgColor white
+lighting soft
+
+# ============================================================
+# STEP 1: Open all 4 finger millet structures + rice homolog
+# ============================================================
+echo "=== Opening structures ==="
+
+open "C:\Users\Joshua\Downloads\MSTRG_4687_1_finger_millet_a8fb3\MSTRG_4687_1_finger_millet_a8fb3_relaxed_rank_001_alphafold2_ptm_model_1_seed_000.pdb"
+open "C:\Users\Joshua\Downloads\MSTRG_45757_2_finger_millet_24e2d\MSTRG_45757_2_finger_millet_24e2d_relaxed_rank_001_alphafold2_ptm_model_1_seed_000.pdb"
+open "C:\Users\Joshua\Downloads\MSTRG_6647_1_finger_millet_27b31\MSTRG_6647_1_finger_millet_27b31_relaxed_rank_001_alphafold2_ptm_model_1_seed_000.pdb"
+open "C:\Users\Joshua\Downloads\MSTRG_45758_1_finger_millet_9385e\MSTRG_45758_1_finger_millet_9385e_relaxed_rank_001_alphafold2_ptm_model_1_seed_000.pdb"
+open alphafold:Q0J1V6
+
+# Model assignments:
+# #1 = MSTRG.4687.1    (350 aa, Eleusine-specific)
+# #2 = MSTRG.45757.2   (193 aa, Eleusine-specific)
+# #3 = MSTRG.6647.1    (430 aa, Pan-grass, MYB-binding)
+# #4 = MSTRG.45758.1   (long, Eleusine-specific)
+# #5 = Rice Q0J1V6     (structural homolog)
+
+echo "✅ All structures loaded"
+
+# ============================================================
+# STEP 2: pLDDT confidence figures
+# ============================================================
+echo "=== Saving pLDDT figures ==="
+
+hide all models
+show #1 cartoons
+color #1 bfactor palette blue:white:red range 50,100
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_4687_1_pLDDT.png" width 2000 height 1500
+
+hide all models
+show #2 cartoons
+color #2 bfactor palette blue:white:red range 50,100
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_45757_2_pLDDT.png" width 2000 height 1500
+
+hide all models
+show #3 cartoons
+color #3 bfactor palette blue:white:red range 50,100
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_6647_1_pLDDT.png" width 2000 height 1500
+
+hide all models
+show #4 cartoons
+color #4 bfactor palette blue:white:red range 50,100
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_45758_1_pLDDT.png" width 2000 height 1500
+
+echo "✅ pLDDT figures done"
+
+# ============================================================
+# STEP 3: Structural alignments vs rice Q0J1V6
+# ============================================================
+echo "=== Structural alignments vs rice ==="
+
+hide all models
+show #1,5 cartoons
+color #1 cornflower blue
+color #5 orange
+matchmaker #5 to #1
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_4687_1_vs_rice.png" width 2000 height 1500
+
+hide all models
+show #2,5 cartoons
+color #2 forest green
+color #5 orange
+matchmaker #5 to #2
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_45757_2_vs_rice.png" width 2000 height 1500
+
+hide all models
+show #3,5 cartoons
+color #3 firebrick
+color #5 orange
+matchmaker #5 to #3
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_6647_1_vs_rice.png" width 2000 height 1500
+
+hide all models
+show #4,5 cartoons
+color #4 dark violet
+color #5 orange
+matchmaker #5 to #4
+view
+save "C:\Users\Joshua\Desktop\figures\MSTRG_45758_1_vs_rice.png" width 2000 height 1500
+
+echo "✅ Alignment figures done"
+
+# ============================================================
+# STEP 4: Overview — all 4 tiled together
+# ============================================================
+echo "=== Overview figure ==="
+
+hide all models
+show #1,2,3,4 cartoons
+color #1 cornflower blue
+color #2 forest green
+color #3 firebrick
+color #4 dark violet
+tile #1,2,3,4
+view
+save "C:\Users\Joshua\Desktop\figures\all_4_proteins_overview.png" width 3000 height 1500
+
+echo "✅ Overview figure done"
+
+# ============================================================
+# STEP 5: Spinning movies (black background)
+# ============================================================
+echo "=== Recording movies ==="
+set bgColor black
+
+hide all models
+show #1 cartoons
+color #1 bfactor palette blue:white:red range 50,100
+view
+movie record
+turn y 2 180
+wait 180
+movie encode "C:\Users\Joshua\Desktop\figures\MSTRG_4687_1_spin.mp4"
+
+hide all models
+show #2 cartoons
+color #2 bfactor palette blue:white:red range 50,100
+view
+movie record
+turn y 2 180
+wait 180
+movie encode "C:\Users\Joshua\Desktop\figures\MSTRG_45757_2_spin.mp4"
+
+hide all models
+show #3 cartoons
+color #3 bfactor palette blue:white:red range 50,100
+view
+movie record
+turn y 2 180
+wait 180
+movie encode "C:\Users\Joshua\Desktop\figures\MSTRG_6647_1_spin.mp4"
+
+hide all models
+show #4 cartoons
+color #4 bfactor palette blue:white:red range 50,100
+view
+movie record
+turn y 2 180
+wait 180
+movie encode "C:\Users\Joshua\Desktop\figures\MSTRG_45758_1_spin.mp4"
+
+set bgColor white
+echo "✅ Movies done"
+
+# ============================================================
+# DONE
+# ============================================================
+echo ""
+echo "============================================"
+echo " ALL DONE!"
+echo " Check: C:\Users\Joshua\Desktop\figures\"
+echo " 4x pLDDT figures"
+echo " 4x alignment vs rice figures"
+echo " 1x overview figure"
+echo " 4x spinning movies"
+echo "============================================"
+
+hide all models
+show #1,2,3,4,5 cartoons
+color #1 cornflower blue
+color #2 forest green
+color #3 firebrick
+color #4 dark violet
+color #5 orange
+view

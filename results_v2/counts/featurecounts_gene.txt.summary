@@ -1,0 +1,15 @@
+Status	results/aligned/DRR095904.sorted.bam	results/aligned/DRR095905.sorted.bam	results/aligned/DRR095906.sorted.bam	results/aligned/DRR095907.sorted.bam	results/aligned/DRR095908.sorted.bam	results/aligned/DRR095909.sorted.bam
+Assigned	12898794	14212527	15497262	26054264	22559940	14337693
+Unassigned_Unmapped	0	0	0	0	0	0
+Unassigned_Read_Type	0	0	0	0	0	0
+Unassigned_Singleton	0	0	0	0	0	0
+Unassigned_MappingQuality	0	0	0	0	0	0
+Unassigned_Chimera	0	0	0	0	0	0
+Unassigned_FragmentLength	0	0	0	0	0	0
+Unassigned_Duplicate	0	0	0	0	0	0
+Unassigned_MultiMapping	0	0	0	0	0	0
+Unassigned_Secondary	0	0	0	0	0	0
+Unassigned_NonSplit	0	0	0	0	0	0
+Unassigned_NoFeatures	471282	583610	694727	1800750	1392286	746151
+Unassigned_Overlapping_Length	0	0	0	0	0	0
+Unassigned_Ambiguity	6987	8550	11507	15685	11401	6644

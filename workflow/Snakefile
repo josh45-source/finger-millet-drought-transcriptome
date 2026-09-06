@@ -1,0 +1,477 @@
+import os
+
+# Prepend the conda environment bin directories to PATH.
+# Set FM_ENV_BIN (colon-separated) to point at your own environments, e.g.
+#   export FM_ENV_BIN="$CONDA_PREFIX/bin"
+# If unset, the ambient PATH is used unchanged and the tools must already be
+# on it. The original run hard-coded two absolute paths under the author's
+# home directory; that line was replaced for deposition.
+_env_bin = os.environ.get("FM_ENV_BIN", "")
+if _env_bin:
+    os.environ["PATH"] = _env_bin + os.pathsep + os.environ["PATH"]
+
+# ============================================================
+#  Finger Millet Drought Novel Gene Discovery — Snakemake Pipeline
+#  Maintainer: see CITATION.cff
+#  Project root: the directory containing this Snakefile
+#  Date:    April 2026
+#
+#  Usage:
+#    # Dry run (check what will run):
+#    snakemake -n --configfile config.yaml
+#
+#    # Full run:
+#    snakemake --configfile config.yaml --cores 4 --use-conda
+# ============================================================
+
+import os
+from pathlib import Path
+
+configfile: "config.yaml"
+
+# ── Helpers ──────────────────────────────────────────────────
+CONTROLS = config["samples"]["control"]
+DROUGHTS = config["samples"]["drought"]
+ALL_SAMPLES = CONTROLS + DROUGHTS
+CONDITIONS  = {s: "control" for s in CONTROLS}
+CONDITIONS.update({s: "drought" for s in DROUGHTS})
+
+# ── Final Targets ─────────────────────────────────────────────
+rule all:
+    input:
+        "results/qc/multiqc_report/multiqc_report.html",
+        "results/novel_genes/novel_genes.gtf",
+        "results/de_analysis/drought_upregulated_novel_genes.tsv",
+        "results/novel_genes/blast_results.txt",
+        "results/final_report/candidate_genes_annotated.tsv",
+        "logs/tool_versions.txt"
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 1 — REFERENCE SETUP
+# ─────────────────────────────────────────────────────────────
+
+rule download_genome:
+    output:
+        genome = config["reference"]["genome"]
+    params:
+        url = config["reference"]["genome_url"]
+    log:
+        "logs/download_genome.log"
+    shell:
+        """
+        mkdir -p data/ref
+        wget -q --show-progress -O {output.genome}.gz {params.url} 2>{log}
+        gunzip {output.genome}.gz 2>>{log}
+        echo "Genome downloaded: $(date)" >> {log}
+        """
+
+rule download_annotation:
+    output:
+        gff = config["reference"]["annotation"]
+    params:
+        url = config["reference"]["annotation_url"]
+    log:
+        "logs/download_annotation.log"
+    shell:
+        """
+        wget -q --show-progress -O {output.gff}.gz {params.url} 2>{log}
+        gunzip {output.gff}.gz 2>>{log}
+        echo "Annotation downloaded: $(date)" >> {log}
+        """
+
+rule download_uniprot:
+    output:
+        fasta = config["reference"]["uniprot_db"]
+    params:
+        url = config["reference"]["uniprot_url"]
+    log:
+        "logs/download_uniprot.log"
+    shell:
+        """
+        wget -q --show-progress -O {output.fasta}.gz {params.url} 2>{log}
+        gunzip {output.fasta}.gz 2>>{log}
+        makeblastdb -in {output.fasta} -dbtype prot \
+            -out data/ref/uniprot_db 2>>{log}
+        echo "UniProt DB ready: $(date)" >> {log}
+        """
+
+rule build_hisat2_index:
+    input:
+        genome = config["reference"]["genome"]
+    output:
+        touch("data/ref/fm_index.done")
+    params:
+        index   = config["reference"]["hisat2_index"],
+        threads = config["resources"]["threads"]
+    log:
+        "logs/hisat2_build.log"
+    shell:
+        """
+        hisat2-build \
+            --threads 2 \
+            {input.genome} \
+            {params.index} \
+            2>{log}
+        echo "HISAT2 index built: $(date)" >> {log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 2 — DATA DOWNLOAD & QC
+# ─────────────────────────────────────────────────────────────
+
+rule download_sra:
+    output:
+        r1 = "data/raw/{sample}_1.fastq.gz",
+        r2 = "data/raw/{sample}_2.fastq.gz"
+    log:
+        "logs/{sample}_download.log"
+    shell:
+        """
+        mkdir -p data/raw
+        prefetch {wildcards.sample} \
+            --output-directory data/raw 2>{log}
+        fasterq-dump {wildcards.sample} \
+            --split-files \
+            --threads 4 \
+            --outdir data/raw \
+            --skip-technical \
+            2>>{log}
+        pigz -p 4 data/raw/{wildcards.sample}_1.fastq \
+                  data/raw/{wildcards.sample}_2.fastq
+        echo "Downloaded {wildcards.sample}: $(date)" >> {log}
+        """
+
+rule fastqc_raw:
+    input:
+        r1 = "data/raw/{sample}_1.fastq.gz",
+        r2 = "data/raw/{sample}_2.fastq.gz"
+    output:
+        html1 = "results/qc/raw/{sample}_1_fastqc.html",
+        html2 = "results/qc/raw/{sample}_2_fastqc.html"
+    log:
+        "logs/{sample}_fastqc_raw.log"
+    shell:
+        """
+        mkdir -p results/qc/raw
+        fastqc {input.r1} {input.r2} \
+            --outdir results/qc/raw \
+            --threads 4 \
+            2>{log}
+        """
+
+rule multiqc:
+    input:
+        expand("results/qc/raw/{sample}_{read}_fastqc.html",
+               sample=ALL_SAMPLES, read=["1","2"])
+    output:
+        "results/qc/multiqc_report/multiqc_report.html"
+    log:
+        "logs/multiqc.log"
+    shell:
+        """
+        multiqc results/qc/raw \
+            -o results/qc/multiqc_report \
+            --force --quiet 2>{log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 3 — TRIMMING
+# ─────────────────────────────────────────────────────────────
+
+rule trim_reads:
+    input:
+        r1 = "data/raw/{sample}_1.fastq.gz",
+        r2 = "data/raw/{sample}_2.fastq.gz"
+    output:
+        r1p = "results/trimmed/{sample}_1_paired.fastq.gz",
+        r2p = "results/trimmed/{sample}_2_paired.fastq.gz",
+        r1u = "results/trimmed/{sample}_1_unpaired.fastq.gz",
+        r2u = "results/trimmed/{sample}_2_unpaired.fastq.gz"
+    params:
+        adapters = config["trimming"]["adapters"],
+        leading  = config["trimming"]["leading"],
+        trailing = config["trimming"]["trailing"],
+        sw       = config["trimming"]["sliding_window"],
+        minlen   = config["trimming"]["min_len"]
+    log:
+        "logs/{sample}_trim.log"
+    shell:
+        """
+        mkdir -p results/trimmed
+        ADAPTERS=$(find "${CONDA_PREFIX:-/usr}" \
+            -name "{params.adapters}.fa" 2>/dev/null | head -1)
+        trimmomatic PE \
+            {input.r1} {input.r2} \
+            {output.r1p} {output.r1u} \
+            {output.r2p} {output.r2u} \
+            ILLUMINACLIP:$ADAPTERS:2:30:10 \
+            LEADING:{params.leading} \
+            TRAILING:{params.trailing} \
+            SLIDINGWINDOW:{params.sw} \
+            MINLEN:{params.minlen} \
+            -threads 4 \
+            2>{log}
+        echo "Trimmed {wildcards.sample}: $(date)" >> {log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 4 — ALIGNMENT (POLYPLOID-OPTIMISED)
+# ─────────────────────────────────────────────────────────────
+
+rule align:
+    input:
+        r1    = "results/trimmed/{sample}_1_paired.fastq.gz",
+        r2    = "results/trimmed/{sample}_2_paired.fastq.gz",
+        index = "data/ref/fm_index.done"
+    output:
+        bam = "results/aligned/{sample}.sorted.bam",
+        bai = "results/aligned/{sample}.sorted.bam.bai"
+    params:
+        index   = config["reference"]["hisat2_index"],
+        threads = config["resources"]["threads"]
+    log:
+        "logs/{sample}_align.log"
+    shell:
+        """
+        mkdir -p results/aligned
+        hisat2 \
+            -x {params.index} \
+            -1 {input.r1} -2 {input.r2} \
+            --threads 2 \
+            --score-min L,0,-0.5 \
+            --no-mixed \
+            --no-discordant \
+            --mp 4,2 \
+            --rdg 5,3 --rfg 5,3 \
+            --rna-strandness RF \
+            --dta \
+            --min-intronlen 20 \
+            --max-intronlen 500000 \
+            --new-summary \
+            --summary-file logs/{wildcards.sample}_align_summary.txt \
+            2>{log} \
+        | samtools sort -@ 2 -m 800M \
+        | samtools view -bh -q 20 \
+        | samtools sort -@ 2 -o {output.bam}
+        samtools index {output.bam}
+        echo "Aligned {wildcards.sample}: $(date)" >> {log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 5 — TRANSCRIPT ASSEMBLY & NOVEL GENE DETECTION
+# ─────────────────────────────────────────────────────────────
+
+rule stringtie_assemble:
+    input:
+        bam = "results/aligned/{sample}.sorted.bam",
+        gff = config["reference"]["annotation"]
+    output:
+        gtf = "results/assembled/{sample}.gtf"
+    log:
+        "logs/{sample}_stringtie.log"
+    shell:
+        """
+        mkdir -p results/assembled
+        stringtie \
+            {input.bam} \
+            -G {input.gff} \
+            -o {output.gtf} \
+            -p 4 -m 200 -c 2.5 -v \
+            2>{log}
+        echo "Assembled {wildcards.sample}: $(date)" >> {log}
+        """
+
+rule stringtie_merge:
+    input:
+        gtfs = expand("results/assembled/{sample}.gtf",
+                      sample=ALL_SAMPLES),
+        gff  = config["reference"]["annotation"]
+    output:
+        merged = "results/assembled/merged_assembly.gtf"
+    log:
+        "logs/stringtie_merge.log"
+    shell:
+        """
+        stringtie --merge \
+            -G {input.gff} \
+            -o {output.merged} \
+            {input.gtfs} \
+            2>{log}
+        echo "Merged: $(date)" >> {log}
+        """
+
+rule gffcompare:
+    input:
+        merged = "results/assembled/merged_assembly.gtf",
+        gff    = config["reference"]["annotation"]
+    output:
+        annotated = "results/novel_genes/gffcmp.annotated.gtf",
+        stats     = "results/novel_genes/gffcmp.stats"
+    log:
+        "logs/gffcompare.log"
+    shell:
+        """
+        mkdir -p results/novel_genes
+        gffcompare \
+            {input.merged} \
+            -r {input.gff} \
+            -o results/novel_genes/gffcmp \
+            2>{log}
+        echo "GFFcompare done: $(date)" >> {log}
+        """
+
+rule extract_novel_genes:
+    input:
+        annotated = "results/novel_genes/gffcmp.annotated.gtf"
+    output:
+        novel_gtf = "results/novel_genes/novel_genes.gtf"
+    log:
+        "logs/extract_novel.log"
+    shell:
+        """
+        grep 'class_code "u"' {input.annotated} \
+            > {output.novel_gtf} || true
+        COUNT=$(grep -c "transcript" {output.novel_gtf} || echo 0)
+        echo "Novel candidates found: $COUNT" | tee {log}
+        echo "Done: $(date)" >> {log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 6 — READ COUNTING FOR DE ANALYSIS
+# ─────────────────────────────────────────────────────────────
+
+rule stringtie_count:
+    input:
+        bam    = "results/aligned/{sample}.sorted.bam",
+        merged = "results/assembled/merged_assembly.gtf"
+    output:
+        gtf  = "results/counts/{sample}_counts.gtf"
+    log:
+        "logs/{sample}_count.log"
+    shell:
+        """
+        mkdir -p results/counts
+        stringtie \
+            {input.bam} \
+            -G {input.merged} \
+            -e -B \
+            -o {output.gtf} \
+            -p 4 \
+            2>{log}
+        echo "Counted {wildcards.sample}: $(date)" >> {log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 7 — DIFFERENTIAL EXPRESSION
+# ─────────────────────────────────────────────────────────────
+
+rule de_analysis:
+    input:
+        count_gtfs = expand("results/counts/{sample}_counts.gtf",
+                            sample=ALL_SAMPLES),
+        novel_gtf  = "results/novel_genes/novel_genes.gtf"
+    output:
+        all_de   = "results/de_analysis/all_de_results.tsv",
+        novel_up = "results/de_analysis/drought_upregulated_novel_genes.tsv",
+        volcano  = "results/de_analysis/volcano_plot.pdf",
+        heatmap  = "results/de_analysis/heatmap_novel_drought.pdf"
+    params:
+        padj_cutoff = config["de_analysis"]["padj_cutoff"],
+        lfc_cutoff  = config["de_analysis"]["log2fc_cutoff"],
+        min_count   = config["de_analysis"]["min_count"],
+        controls    = ",".join(CONTROLS),
+        droughts    = ",".join(DROUGHTS)
+    log:
+        "logs/de_analysis.log"
+    script:
+        "scripts/de_analysis.R"
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 8 — BLAST ANNOTATION
+# ─────────────────────────────────────────────────────────────
+
+rule extract_novel_sequences:
+    input:
+        novel_gtf = "results/novel_genes/novel_genes.gtf",
+        genome    = config["reference"]["genome"]
+    output:
+        fasta = "results/novel_genes/novel_transcripts.fa"
+    log:
+        "logs/extract_sequences.log"
+    shell:
+        """
+        bedtools getfasta \
+            -fi {input.genome} \
+            -bed {input.novel_gtf} \
+            -fo {output.fasta} \
+            -split -name \
+            2>{log}
+        echo "Sequences extracted: $(date)" >> {log}
+        """
+
+rule blast_novel_genes:
+    input:
+        fasta   = "results/novel_genes/novel_transcripts.fa",
+        uniprot = config["reference"]["uniprot_db"]
+    output:
+        blast = "results/novel_genes/blast_results.txt"
+    params:
+        db      = "data/ref/uniprot_db",
+        evalue  = config["blast"]["evalue"],
+        threads = config["blast"]["num_threads"],
+        outfmt  = config["blast"]["outfmt"]
+    log:
+        "logs/blast.log"
+    shell:
+        """
+        blastx \
+            -query {input.fasta} \
+            -db {params.db} \
+            -out {output.blast} \
+            -outfmt "{params.outfmt}" \
+            -evalue {params.evalue} \
+            -num_threads {params.threads} \
+            -max_target_seqs 5 \
+            2>{log}
+        echo "BLAST done: $(date)" >> {log}
+        """
+
+
+# ─────────────────────────────────────────────────────────────
+# SECTION 9 — FINAL REPORT
+# ─────────────────────────────────────────────────────────────
+
+rule final_report:
+    input:
+        novel_up = "results/de_analysis/drought_upregulated_novel_genes.tsv",
+        blast    = "results/novel_genes/blast_results.txt"
+    output:
+        report = "results/final_report/candidate_genes_annotated.tsv"
+    log:
+        "logs/final_report.log"
+    script:
+        "scripts/merge_results.py"
+
+rule log_versions:
+    output:
+        versions = "logs/tool_versions.txt"
+    shell:
+        """
+        echo "=== Tool Versions ===" > {output.versions}
+        echo "Host: $(hostname)" >> {output.versions}
+        echo "Date: $(date)" >> {output.versions}
+        echo "" >> {output.versions}
+        hisat2 --version | head -1 >> {output.versions}
+        samtools --version | head -1 >> {output.versions}
+        stringtie --version >> {output.versions}
+        fastqc --version >> {output.versions}
+        conda list -n finger_millet >> {output.versions}
+        """

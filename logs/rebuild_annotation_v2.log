@@ -1,0 +1,31 @@
+BLAST lines parsed          : 51,468
+transcripts with >=1 hit    : 6,106
+  of which class-code u     : 6,106 of 21,864 (27.9%)
+
+=== RE-ANALYSIS novel drought-up (2,422): 2,422 transcripts ===
+  with BLAST hit : 890 (36.7%)
+  NO homology    : 1,532 (63.3%)   <-- the headline number
+  tier distribution (4-tier, as in candidate_genes_final.tsv):
+     1,184  Tier 1 — Novel, no homolog, highly induced
+       771  Tier 3 — Novel, other homolog
+       348  Tier 1 — Novel, no homolog
+       119  Tier 2 — Novel, stress-related homolog
+  tier distribution (merge_results.py's own 3-tier function):
+     1,184  Tier 1 — Novel, no homolog, highly induced
+     1,119  Tier 3 — Novel, other/no homolog
+       119  Tier 2 — Novel, stress-related homolog
+
+=== ORIGINAL novel drought-up (2,354), re-annotated: 2,354 transcripts ===
+  with BLAST hit : 860 (36.5%)
+  NO homology    : 1,494 (63.5%)   <-- the headline number
+  tier distribution (4-tier, as in candidate_genes_final.tsv):
+     1,168  Tier 1 — Novel, no homolog, highly induced
+       739  Tier 3 — Novel, other homolog
+       326  Tier 1 — Novel, no homolog
+       121  Tier 2 — Novel, stress-related homolog
+  tier distribution (merge_results.py's own 3-tier function):
+     1,168  Tier 1 — Novel, no homolog, highly induced
+     1,065  Tier 3 — Novel, other/no homolog
+       121  Tier 2 — Novel, stress-related homolog
+
+Wrote /mnt/d/finger_millet_project/results_v2/annotation/

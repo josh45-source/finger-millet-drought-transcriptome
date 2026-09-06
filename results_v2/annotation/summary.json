@@ -1,0 +1,38 @@
+{
+ "reanalysis": {
+  "n": 2422,
+  "hits": 890,
+  "no_hit": 1532,
+  "tier4": {
+   "Tier 3 \u2014 Novel, other homolog": 771,
+   "Tier 1 \u2014 Novel, no homolog, highly induced": 1184,
+   "Tier 1 \u2014 Novel, no homolog": 348,
+   "Tier 2 \u2014 Novel, stress-related homolog": 119
+  },
+  "tier3": {
+   "Tier 3 \u2014 Novel, other/no homolog": 1119,
+   "Tier 1 \u2014 Novel, no homolog, highly induced": 1184,
+   "Tier 2 \u2014 Novel, stress-related homolog": 119
+  }
+ },
+ "original": {
+  "n": 2354,
+  "hits": 860,
+  "no_hit": 1494,
+  "tier4": {
+   "Tier 3 \u2014 Novel, other homolog": 739,
+   "Tier 1 \u2014 Novel, no homolog, highly induced": 1168,
+   "Tier 1 \u2014 Novel, no homolog": 326,
+   "Tier 2 \u2014 Novel, stress-related homolog": 121
+  },
+  "tier3": {
+   "Tier 3 \u2014 Novel, other/no homolog": 1065,
+   "Tier 1 \u2014 Novel, no homolog, highly induced": 1168,
+   "Tier 2 \u2014 Novel, stress-related homolog": 121
+  }
+ },
+ "all_novel": {
+  "n": 21864,
+  "hits": 6106
+ }
+}

@@ -1,0 +1,87 @@
+# ============================================================
+#  Finger Millet Drought Pipeline — Config File
+#  Maintainer: see CITATION.cff
+#  Project root: the directory containing this file
+#
+#  ONLY EDIT THE SAMPLES SECTION below
+#  after running Cell 4 (SRA search) to find accessions
+# ============================================================
+
+# --- Samples ---
+# Fill in your SRA accession numbers here after searching SRA
+# Format: SRR followed by numbers e.g. SRR2932454
+samples:
+  control:
+    - DRR095904
+    - DRR095905
+    - DRR095906
+  drought:
+    - DRR095907
+    - DRR095908
+    - DRR095909
+
+# --- Reference Files ---
+# Finger millet genome
+#
+# CORRECTED 19 Aug 2026 (deposition copy only; the working copy in
+# the source project is unchanged).
+#
+# These URLs previously pointed at GCA_002477235.1 (Ecoracana_ML365_v1.0,
+# Hittalmani 2017) — a scaffold-level assembly that was NOT the one used.
+# The analysis was performed against GCA_032690845.1 (Eleusine_coracana_v1.0,
+# cv. KNE 796-S): chromosome-scale, 18 pseudomolecules (1A/1B..9A/9B),
+# 532 sequences, 1,111,714,373 bp, N50 61,270,980 bp.
+# Verified from data/ref/annotation.gff3:
+#   #!genome-build-accession NCBI_Assembly:GCA_032690845.1
+reference:
+  genome_url: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/032/690/845/GCA_032690845.1_Eleusine_coracana_v1.0/GCA_032690845.1_Eleusine_coracana_v1.0_genomic.fna.gz"
+  annotation_url: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/032/690/845/GCA_032690845.1_Eleusine_coracana_v1.0/GCA_032690845.1_Eleusine_coracana_v1.0_genomic.gff.gz"
+  uniprot_url: "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz"
+
+  # Local paths — relative to the project root
+  genome:     "data/ref/genome.fa"
+  annotation: "data/ref/annotation.gff3"
+  hisat2_index: "data/ref/fm_index"
+  uniprot_db: "data/ref/uniprot_sprot.fasta"
+
+# --- Trimming Parameters ---
+trimming:
+  adapters:       "TruSeq3-PE"
+  leading:        3
+  trailing:       3
+  sliding_window: "4:15"
+  min_len:        36
+
+# --- Alignment Parameters ---
+alignment:
+  min_intron_len: 20
+  max_intron_len: 500000
+
+# --- StringTie Parameters ---
+stringtie:
+  min_transcript_len: 200
+  min_coverage:       2.5
+
+# --- Differential Expression Parameters ---
+de_analysis:
+  padj_cutoff:  0.05
+  # log2fc_cutoff is 1.5, NOT 2.0. This is the value that was applied:
+  # scripts/de_analysis.R filters with `log2FoldChange >= lfc_cutoff`
+  # (one-sided, up-regulated only). Confirmed empirically — the minimum
+  # log2FoldChange among the 2,354 reported transcripts is 1.5009.
+  # Reporting "2,354 transcripts at |log2FC| > 2" is incorrect;
+  # at log2FC > 2 the count is 2,081.
+  log2fc_cutoff: 1.5
+  min_count:    10
+
+# --- BLAST Parameters ---
+blast:
+  evalue:      1e-5
+  num_threads: 4
+  outfmt:      "6 qseqid sseqid pident length evalue bitscore stitle"
+
+# --- Resources ---
+# Set for the original run: 16 GB RAM, 4 cores via WSL2
+resources:
+  threads: 4
+  mem_mb:  10000

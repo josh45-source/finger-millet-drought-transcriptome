@@ -1,0 +1,165 @@
+cff-version: 1.2.0
+title: >-
+  Finger Millet Drought Transcriptome — Reference-Guided
+  Reanalysis (corrected)
+message: >-
+  If you use this dataset, please cite it using the metadata
+  in this file. Please also cite the underlying RNA-seq data
+  (Hatakeyama et al. 2018) and the reference genome assembly
+  GCA_032690845.1, which are third-party works not covered by
+  this deposit's licences. This deposit is dual-licensed: MIT
+  for executable code (everything in scripts/, plus
+  workflow/Snakefile and workflow/setup.sh) and CC BY 4.0 for
+  all data, figures, documentation and workflow/config.yaml.
+  See LICENSE for the full texts and the exact split.
+type: dataset
+authors:
+  - given-names: Joash Joshua
+    family-names: Ayo
+    orcid: 'https://orcid.org/0009-0007-1642-0172'
+    affiliation: Independent Researcher, Kampala, Uganda
+    email: joashjoshua789@gmail.com
+    city: Kampala
+    country: UG
+abstract: >-
+  Reference-guided reanalysis of published drought-response
+  RNA-seq data in finger millet (Eleusine coracana (L.)
+  Gaertn.) against the chromosome-scale KNE 796-S genome
+  assembly (GCA_032690845.1), which resolves both subgenomes
+  of the allotetraploid into 18 pseudomolecules.
+
+
+  The deposit contains TWO analyses. results_v2/ is the
+  corrected re-analysis and supersedes results_v1/, which is
+  the original April 2026 analysis retained unmodified as a
+  historical record. Four defects were found in the original
+  by audit and are documented in full: DESeq2 was supplied
+  per-base coverage rescaled by 100 rather than read counts;
+  the BLASTx annotation join never matched because bedtools
+  getfasta wrote the GTF feature type as the FASTA name; the
+  tier classifier matched stress keywords as substrings rather
+  than words; and sequence extraction lost exon structure, so
+  extracted sequences retain their introns.
+
+
+  Corrected results: 21,864 novel intergenic transcripts
+  (gffcompare class u) were detected, of which 2,422 are
+  significantly drought-upregulated (adjusted p < 0.05,
+  log2 fold change >= 1.5) using prepDE.py count matrices
+  validated against featureCounts at Spearman rho 0.985-0.995.
+  Of those, 1,532 (63.3 per cent) have no UniProt/Swiss-Prot
+  homolog at E <= 1e-5, a rate consistent with published
+  expectations for intergenic transcribed regions in the
+  grasses rather than evidence of an unusual gene repertoire.
+  203 (8.4 per cent) are mobile-element derived.
+
+
+  One candidate, MSTRG.31255.1, survives systematic
+  re-examination: a single-exon locus on chromosome 6A
+  encoding a 104-amino-acid cysteine-rich peptide with a
+  predicted signal peptide and extracellular localisation
+  (log2FC 4.434, adjusted p 1.56e-32). It has no Swiss-Prot
+  hit under the corrected join, but its ColabFold multiple
+  sequence alignment contains 27 distinct homologs across
+  seven grass genera and three subfamilies, all unreviewed
+  TrEMBL entries. Homoeologous copies exist on 6A and 6B plus
+  a tandem paralog on 6A. Its AlphaFold2 model is low
+  confidence (mean pLDDT 59.95, pTM 0.390, MSA depth 34).
+
+
+  The package includes the Snakemake workflow, maintained and
+  recovered analysis scripts, both result sets, count
+  matrices, corrected BLASTx output and annotation tables,
+  ColabFold structural models with their MSAs and confidence
+  scores, diagnostic figures, run logs, and documentation of
+  provenance, corrections and known limitations. Treatment is
+  confounded with plant age: control and drought tissue were
+  sampled seven days apart and no time-matched well-watered
+  control was sampled at day seven. Whether the two groups
+  derive from the same individual plants cannot be established
+  from either the data or the surviving experimental records,
+  so the six libraries are treated as independent samples. The
+  three libraries per condition come from separate plants, so
+  the replication is biological rather than technical, although
+  the archive metadata does not record this; between-replicate
+  dispersion is extreme. The work is computational only and has
+  not been peer reviewed.
+keywords:
+  - Eleusine coracana
+  - finger millet
+  - drought stress
+  - RNA-seq
+  - transcriptome
+  - differential expression
+  - novel gene annotation
+  - intergenic transcribed regions
+  - allotetraploid
+  - orphan crop
+  - reference-guided assembly
+  - reproducibility
+  - reanalysis
+license:
+  - MIT
+  - CC-BY-4.0
+version: 2.0.0
+date-released: '2026-08-28'
+references:
+  - type: article
+    authors:
+      - family-names: Hatakeyama
+        given-names: Masaomi
+    title: >-
+      Multiple hybrid de novo genome assembly of finger
+      millet, an orphan allotetraploid crop
+    journal: DNA Research
+    year: 2018
+    volume: 25
+    issue: 1
+    start: 39
+    end: 47
+    doi: 10.1093/dnares/dsx036
+    notes: >-
+      Source of the RNA-seq data reanalysed in this work
+      (DRS049651, BioProject PRJDB5606). NOT the source of the
+      reference genome used here.
+  - type: data
+    authors:
+      - name: NCBI GenBank
+    title: >-
+      Eleusine coracana subsp. coracana cultivar KNE 796-S
+      genome assembly Eleusine_coracana_v1.0
+    year: 2023
+    notes: >-
+      Reference genome used throughout, NCBI GenBank accession
+      GCA_032690845.1. 532 sequences, 1,111,714,373 bp,
+      18 pseudomolecules.
+  - type: article
+    authors:
+      - family-names: Lloyd
+        given-names: John P.
+      - family-names: Bowman
+        given-names: Megan J.
+      - family-names: Azodi
+        given-names: Christina B.
+      - family-names: Sowers
+        given-names: Rosalie P.
+      - family-names: Moghe
+        given-names: Gaurav D.
+      - family-names: Childs
+        given-names: Kevin L.
+      - family-names: Shiu
+        given-names: Shin-Han
+    title: >-
+      Evolutionary characteristics of intergenic transcribed
+      regions indicate rare novel genes and widespread noisy
+      transcription in the Poaceae
+    journal: Scientific Reports
+    year: 2019
+    volume: 9
+    start: 12122
+    doi: 10.1038/s41598-019-47797-y
+    notes: >-
+      Basis for the statement that a no-homology rate near 63
+      per cent is unremarkable for intergenic transcribed
+      regions; 16-23 per cent of ITRs in that survey had
+      detectable protein-level similarity.

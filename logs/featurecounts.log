@@ -1,0 +1,92 @@
+
+        ==========     _____ _    _ ____  _____  ______          _____  
+        =====         / ____| |  | |  _ \|  __ \|  ____|   /\   |  __ \ 
+          =====      | (___ | |  | | |_) | |__) | |__     /  \  | |  | |
+            ====      \___ \| |  | |  _ <|  _  /|  __|   / /\ \ | |  | |
+              ====    ____) | |__| | |_) | | \ \| |____ / ____ \| |__| |
+        ==========   |_____/ \____/|____/|_|  \_\______/_/    \_\_____/
+	  v2.1.1
+
+//========================== featureCounts setting ===========================\\
+||                                                                            ||
+||             Input files : 6 BAM files                                      ||
+||                                                                            ||
+||                           DRR095904.sorted.bam                             ||
+||                           DRR095905.sorted.bam                             ||
+||                           DRR095906.sorted.bam                             ||
+||                           DRR095907.sorted.bam                             ||
+||                           DRR095908.sorted.bam                             ||
+||                           DRR095909.sorted.bam                             ||
+||                                                                            ||
+||             Output file : featurecounts_gene.txt                           ||
+||                 Summary : featurecounts_gene.txt.summary                   ||
+||              Paired-end : yes                                              ||
+||        Count read pairs : yes                                              ||
+||              Annotation : merged_assembly.gtf (GTF)                        ||
+||      Dir for temp files : results_v2/counts                                ||
+||                                                                            ||
+||                 Threads : 4                                                ||
+||                   Level : meta-feature level                               ||
+||      Multimapping reads : not counted                                      ||
+|| Multi-overlapping reads : not counted                                      ||
+||   Min overlapping bases : 1                                                ||
+||                                                                            ||
+\\============================================================================//
+
+//================================= Running ==================================\\
+||                                                                            ||
+|| Load annotation file merged_assembly.gtf ...                               ||
+||    Features : 570201                                                       ||
+||    Meta-features : 64305                                                   ||
+||    Chromosomes/contigs : 79                                                ||
+||                                                                            ||
+|| Process BAM file DRR095904.sorted.bam...                                   ||
+||    Strand specific : reversely stranded                                    ||
+||    Paired-end reads are included.                                          ||
+||    Total alignments : 13377063                                             ||
+||    Successfully assigned alignments : 12898794 (96.4%)                     ||
+||    Running time : 1.38 minutes                                             ||
+||                                                                            ||
+|| Process BAM file DRR095905.sorted.bam...                                   ||
+||    Strand specific : reversely stranded                                    ||
+||    Paired-end reads are included.                                          ||
+||    Total alignments : 14804687                                             ||
+||    Successfully assigned alignments : 14212527 (96.0%)                     ||
+||    Running time : 1.63 minutes                                             ||
+||                                                                            ||
+|| Process BAM file DRR095906.sorted.bam...                                   ||
+||    Strand specific : reversely stranded                                    ||
+||    Paired-end reads are included.                                          ||
+||    Total alignments : 16203496                                             ||
+||    Successfully assigned alignments : 15497262 (95.6%)                     ||
+||    Running time : 2.15 minutes                                             ||
+||                                                                            ||
+|| Process BAM file DRR095907.sorted.bam...                                   ||
+||    Strand specific : reversely stranded                                    ||
+||    Paired-end reads are included.                                          ||
+||    Total alignments : 27870699                                             ||
+||    Successfully assigned alignments : 26054264 (93.5%)                     ||
+||    Running time : 2.96 minutes                                             ||
+||                                                                            ||
+|| Process BAM file DRR095908.sorted.bam...                                   ||
+||    Strand specific : reversely stranded                                    ||
+||    Paired-end reads are included.                                          ||
+||    Total alignments : 23963627                                             ||
+||    Successfully assigned alignments : 22559940 (94.1%)                     ||
+||    Running time : 2.43 minutes                                             ||
+||                                                                            ||
+|| Process BAM file DRR095909.sorted.bam...                                   ||
+||    Strand specific : reversely stranded                                    ||
+||    Paired-end reads are included.                                          ||
+||    Total alignments : 15090488                                             ||
+||    Successfully assigned alignments : 14337693 (95.0%)                     ||
+||    Running time : 1.67 minutes                                             ||
+||                                                                            ||
+|| Write the final count table.                                               ||
+|| Write the read assignment summary.                                         ||
+||                                                                            ||
+|| Summary of counting results can be found in file "results_v2/counts/featu  ||
+|| recounts_gene.txt.summary"                                                 ||
+||                                                                            ||
+\\============================================================================//
+

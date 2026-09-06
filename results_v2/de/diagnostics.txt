@@ -1,0 +1,34 @@
+== library size vs detection ==
+sample           lib_size     detected        PC1        PC2
+DRR095904        18513305        56953     -61.87      36.09
+DRR095905        21011330        56343     -71.19       5.25
+DRR095906        22007479        61618     -60.71     -42.65
+DRR095907        36411871        78729      72.07      -1.39
+DRR095908        31715855        77819      66.75      -2.51
+DRR095909        20994628        74247      54.95       5.20
+
+Pearson  r(lib_size, detected) = 0.7995
+Spearman r(lib_size, detected) = 0.7143
+Pearson  r(lib_size, PC1)      = 0.7509
+Spearman r(lib_size, PC1)      = 0.7143
+Pearson  r(detected, PC1)      = 0.9870
+
+PC1 variance explained = 74%   PC2 = 9%
+
+== within-group vst distances ==
+control  mean=495.77  range=483.71-509.80
+drought  mean=282.15  range=252.48-303.95
+between  mean=578.88  range=539.91-612.22
+
+== dispersion ==
+gene-wise dispersion  median=0.5847  IQR=0.0851-2.4366
+final dispersion      median=0.9129  IQR=0.2032-2.5492
+dispersionFunction: c(asymptDisp = 0.785841089357501, extraPois = 27.6010185609757 )
+
+== detection-sensitivity audit of drought-up novel set ==
+novel drought-up total                       : 2422
+  zero in ALL three control libraries        : 1278 (52.8%)
+  nonzero in 1 control library only          : 312
+  nonzero in 2 control libraries             : 202
+  nonzero in all 3 control libraries         : 630
+  control raw sum < 10 (low-but-nonzero)     : 343

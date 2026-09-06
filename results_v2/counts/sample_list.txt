@@ -1,0 +1,6 @@
+DRR095904	results/counts/DRR095904_counts.gtf
+DRR095905	results/counts/DRR095905_counts.gtf
+DRR095906	results/counts/DRR095906_counts.gtf
+DRR095907	results/counts/DRR095907_counts.gtf
+DRR095908	results/counts/DRR095908_counts.gtf
+DRR095909	results/counts/DRR095909_counts.gtf

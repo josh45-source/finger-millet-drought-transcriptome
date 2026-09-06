@@ -1,0 +1,7 @@
+sample,condition,library_name,library_name_source
+DRR095904,control,Illumina_RNA_ctl_1,ENA_PRJDB5606
+DRR095905,control,Illumina_RNA_ctl_2,ENA_PRJDB5606
+DRR095906,control,Illumina_RNA_ctl_3,ENA_PRJDB5606
+DRR095907,drought,Illumina_RNA_dry_1,ENA_PRJDB5606
+DRR095908,drought,Illumina_RNA_dry_2,ENA_PRJDB5606
+DRR095909,drought,Illumina_RNA_dry_3,ENA_PRJDB5606

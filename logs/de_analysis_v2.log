@@ -1,0 +1,67 @@
+[17:13:30] Count matrix: 101639 transcripts x 6 samples
+[17:13:30] Conditions:   DRR095904=control, DRR095905=control, DRR095906=control, DRR095907=drought, DRR095908=drought, DRR095909=drought
+[17:13:31] Novel (class_code u) transcript IDs: 21864
+[17:13:31] Prefilter rowSums >= 10: keeping 83195 of 101639 (81.9%)
+estimating size factors
+estimating dispersions
+gene-wise dispersion estimates
+mean-dispersion relationship
+final dispersion estimates
+fitting model and testing
+[17:14:25] Size factors: DRR095904=0.5737, DRR095905=0.7419, DRR095906=0.7349, DRR095907=1.9988, DRR095908=1.7538, DRR095909=1.1309
+[17:15:39] Coefficient used for shrinkage: condition_drought_vs_control
+using 'apeglm' for LFC shrinkage. If used in published research, please cite:
+    Zhu, A., Ibrahim, J.G., Love, M.I. (2018) Heavy-tailed prior distributions for
+    sequence count data: removing the noise and preserving large differences.
+    Bioinformatics. https://doi.org/10.1093/bioinformatics/bty895
+Warning message:
+In nbinomGLM(x = x, Y = YNZ, size = size, weights = weightsNZ, offset = offsetNZ,  :
+  the line search routine failed, possibly due to insufficient numeric precision
+[17:17:22] Tested (non-NA padj):            76917
+[17:17:22] Drought-up, all transcripts:     11592
+[17:17:22] Drought-up, novel class-u (MLE): 2422
+[17:17:22] Drought-up, novel class-u (ape): 2218
+using ntop=500 top features by variance
+== library size vs detection ==
+sample           lib_size     detected        PC1        PC2
+DRR095904        18513305        56953     -61.87      36.09
+DRR095905        21011330        56343     -71.19       5.25
+DRR095906        22007479        61618     -60.71     -42.65
+DRR095907        36411871        78729      72.07      -1.39
+DRR095908        31715855        77819      66.75      -2.51
+DRR095909        20994628        74247      54.95       5.20
+
+Pearson  r(lib_size, detected) = 0.7995
+Spearman r(lib_size, detected) = 0.7143
+Pearson  r(lib_size, PC1)      = 0.7509
+Spearman r(lib_size, PC1)      = 0.7143
+Pearson  r(detected, PC1)      = 0.9870
+
+PC1 variance explained = 74%   PC2 = 9%
+
+== within-group vst distances ==
+control  mean=495.77  range=483.71-509.80
+drought  mean=282.15  range=252.48-303.95
+between  mean=578.88  range=539.91-612.22
+
+== dispersion ==
+gene-wise dispersion  median=0.5847  IQR=0.0851-2.4366
+final dispersion      median=0.9129  IQR=0.2032-2.5492
+dispersionFunction: c(asymptDisp = 0.785841089357501, extraPois = 27.6010185609757 )
+
+== detection-sensitivity audit of drought-up novel set ==
+novel drought-up total                       : 2422
+  zero in ALL three control libraries        : 1278 (52.8%)
+  nonzero in 1 control library only          : 312
+  nonzero in 2 control libraries             : 202
+  nonzero in all 3 control libraries         : 630
+  control raw sum < 10 (low-but-nonzero)     : 343 
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
+[17:17:28] Done.

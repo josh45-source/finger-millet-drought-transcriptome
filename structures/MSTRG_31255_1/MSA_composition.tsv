@@ -1,0 +1,42 @@
+# MSA composition — MSTRG_31255_1_finger_millet_932c3.a3m
+# Generated 28 August 2026 from the deposited .a3m. Row/duplicate counts are computed
+# directly from the file; organism and product name were resolved against the UniProt
+# REST API (rest.uniprot.org). Two accessions have since been deleted from UniProt and
+# their species was recovered from UniSave entry-name history (A0A368Q1M5 -> _SETIT,
+# A0A0A9C887 -> _ARUDO); their product names are not retrievable.
+#
+# Fields from the a3m header line: score, seq_identity, evalue, qstart, qend, qlen,
+# tstart, tend, tlen.
+identifier	source	organism	subfamily	product_name	target_len	seq_identity	evalue	duplicate_of
+A0A1E5W179	UniProtKB/TrEMBL (unreviewed)	Dichanthelium oligosanthes	Panicoideae	Uncharacterized protein	128	0.300	7.331E-31	
+K4A2R8	UniProtKB/TrEMBL (unreviewed)	Setaria italica	Panicoideae	Uncharacterized protein	121	0.258	1.006E-30	
+UniRef100_A0A368Q1M5	UniRef100 (unreviewed)	Setaria italica	Panicoideae	(entry deleted from UniProt; product name not retrievable)	133	0.258	1.006E-30	K4A2R8
+9712|scaffold142863_1|+2|11	ColabFold environmental DB	unknown (environmental)	-	no annotation	135	0.290	1.264E-29	
+MGYP001059640954	MGnify protein catalogue	unknown (metagenome)	-	no annotation	168	0.290	1.264E-29	9712|scaffold142863_1|+2|11
+J3MXI1	UniProtKB/TrEMBL (unreviewed)	Oryza brachyantha	Oryzoideae	Uncharacterized protein	111	0.336	8.907E-26	
+A0A0E0M1B3	UniProtKB/TrEMBL (unreviewed)	Oryza punctata	Oryzoideae	Uncharacterized protein	210	0.283	3.158E-25	
+A0A0E0ESA3	UniProtKB/TrEMBL (unreviewed)	Oryza meridionalis	Oryzoideae	RBR-type E3 ubiquitin transferase (EC 2.3.2.31)	470	0.294	3.158E-25	
+A0A0E0M1B4	UniProtKB/TrEMBL (unreviewed)	Oryza punctata	Oryzoideae	Uncharacterized protein	107	0.278	5.948E-25	
+A0A1E5W128	UniProtKB/TrEMBL (unreviewed)	Dichanthelium oligosanthes	Panicoideae	Uncharacterized protein	117	0.318	2.109E-24	
+A0A0D9XDT2	UniProtKB/TrEMBL (unreviewed)	Leersia perrieri	Oryzoideae	Uncharacterized protein	133	0.234	2.109E-24	
+UniRef100_A0A0D9XDT2	UniRef100 (unreviewed)	Leersia perrieri	Oryzoideae	Uncharacterized protein	133	0.234	2.109E-24	A0A0D9XDT2
+A0A0A9C887	UniProtKB/TrEMBL (unreviewed)	Arundo donax	Arundinoideae	(entry deleted from UniProt; product name not retrievable)	126	0.280	1.933E-23	
+MGYP001043365877	MGnify protein catalogue	unknown (metagenome)	-	no annotation	106	0.324	6.854E-23	
+MGYP001085967416	MGnify protein catalogue	unknown (metagenome)	-	no annotation	86	0.257	4.578E-22	
+C5XCV4	UniProtKB/TrEMBL (unreviewed)	Sorghum bicolor	Panicoideae	Uncharacterized protein	112	0.333	6.282E-22	
+A0A0D3H6X7	UniProtKB/TrEMBL (unreviewed)	Oryza barthii	Oryzoideae	Uncharacterized protein	110	0.250	3.058E-21	
+A0A1D6I4F2	UniProtKB/TrEMBL (unreviewed)	Zea mays	Panicoideae	Uncharacterized protein	106	0.311	1.872E-19	
+A0A0E0ESA1	UniProtKB/TrEMBL (unreviewed)	Oryza meridionalis	Oryzoideae	RBR-type E3 ubiquitin transferase (EC 2.3.2.31)	1083	0.240	3.525E-19	
+MGYP001030206434	MGnify protein catalogue	unknown (metagenome)	-	no annotation	93	0.326	1.573E-17	
+A0A0E0ES30	UniProtKB/TrEMBL (unreviewed)	Oryza meridionalis	Oryzoideae	Uncharacterized protein	121	0.273	1.051E-16	
+UniRef100_A0A0E0ES30	UniRef100 (unreviewed)	Oryza meridionalis	Oryzoideae	Uncharacterized protein	121	0.273	1.051E-16	A0A0E0ES30
+A0A0E0M130	UniProtKB/TrEMBL (unreviewed)	Oryza punctata	Oryzoideae	Uncharacterized protein	119	0.258	8.091E-14	
+A0A0D9XDL2	UniProtKB/TrEMBL (unreviewed)	Leersia perrieri	Oryzoideae	Uncharacterized protein	105	0.216	2.655E-05	
+I1QNW3	UniProtKB/TrEMBL (unreviewed)	Oryza glaberrima	Oryzoideae	Uncharacterized protein	125	0.272	1.288E-04	
+A0A0E0QRA3	UniProtKB/TrEMBL (unreviewed)	Oryza rufipogon	Oryzoideae	Uncharacterized protein	126	0.261	1.288E-04	
+A0A0E0M128	UniProtKB/TrEMBL (unreviewed)	Oryza punctata	Oryzoideae	Uncharacterized protein	131	0.248	8.555E-04	
+UniRef100_A0A0E0M128	UniRef100 (unreviewed)	Oryza punctata	Oryzoideae	Uncharacterized protein	131	0.248	8.555E-04	A0A0E0M128
+A0A0E0M131	UniProtKB/TrEMBL (unreviewed)	Oryza punctata	Oryzoideae	Uncharacterized protein	70	0.272	1.173E-03	
+A0A0D9XDL0	UniProtKB/TrEMBL (unreviewed)	Leersia perrieri	Oryzoideae	Uncharacterized protein	122	0.242	4.141E-03	
+J3MXC1	UniProtKB/TrEMBL (unreviewed)	Oryza brachyantha	Oryzoideae	Uncharacterized protein	129	0.228	4.141E-03	
+J3MXC2	UniProtKB/TrEMBL (unreviewed)	Oryza brachyantha	Oryzoideae	Uncharacterized protein	113	0.252	1.814E-01	

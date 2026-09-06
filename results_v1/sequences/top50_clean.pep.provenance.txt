@@ -1,0 +1,75 @@
+===============================================================================
+PROVENANCE — top50_clean.pep
+BYTE-IDENTICAL COPY OF A GENUINE PROJECT FILE
+===============================================================================
+
+Why this is a sidecar and not an in-file header
+-----------------------------------------------
+FASTA has no comment syntax that modern parsers accept. A '#' or ';' preamble is
+read as sequence or raises an error in Biopython, samtools, HMMER and BLAST.
+The file is therefore held byte-verbatim and its provenance recorded here.
+
+Unlike defensins.fasta, this file is NOT a reconstruction. It existed on disk
+throughout and was copied unchanged.
+
+Origin
+------
+  Original path : /mnt/d/finger_millet_project/results/transdecoder/top50_clean.pep
+  Size          : 11,704 bytes
+  Records       : 44
+  Created       : 17 April 2026, 21:06
+  Copied        : 19 August 2026, byte-identical (verified with cmp)
+  Stage         : 6 -- ORF prediction, post-processing
+
+Produced by
+-----------
+  scripts/reconstructed/stage06e_clean_peptide_fasta.py
+      (recovered from ~/.bash_history lines 440-468)
+
+That script read top50_transcripts.fa.transdecoder.pep, reduced each header to a
+bare MSTRG identifier via the regex (MSTRG\.\d+\.\d+), stripped stop-codon
+asterisks, and wrote this file.
+
+Why it matters
+--------------
+This is the exact input that was submitted to InterProScan. Its inclusion means
+the InterProScan output deposited alongside it --
+
+  results/iprscan5-R20260417-190817-0777-66196655-p1m.tsv
+      EBI InterProScan 5 REST job, submitted 17 April 2026 19:08:17
+
+-- now has its query sequences in the package. Without this file the domain
+annotations could not be traced back to the sequences they describe.
+
+It is also the source of every peptide sequence used downstream: the 44 predicted
+proteins, including the lead candidate MSTRG.31255.1 (104 aa), whose sequence was
+verified identical to the independent copy in defensins.fasta.
+
+Contents
+--------
+  44 records, one per top-50 candidate that yielded a TransDecoder ORF of at
+  least 100 aa (44/50 = 88.0%). The 6 candidates with no ORF are absent by
+  construction: MSTRG.14681.1, MSTRG.46022.1, MSTRG.14947.1, MSTRG.45098.4,
+  MSTRG.6129.1, MSTRG.26934.1.
+
+Known limitation inherited from upstream
+-----------------------------------------
+These peptides were predicted from UNSPLICED genomic sequence. The GTF used for
+extraction (results/novel_genes/novel_genes.gtf) contains only transcript records
+and no exon records, so `bedtools getfasta -split` had no blocks to split on and
+returned whole genomic intervals with introns included.
+
+47 of the 50 input sequences are multi-exon, so most ORFs here may read through
+intron sequence. Two worked examples:
+
+  MSTRG.31255.1  single-exon  -- UNAFFECTED. 104 aa ORF is clean.
+  MSTRG.45757.2  4 exons      -- extracted interval 2,937 bp, of which 2,231 bp
+                                 (76.0%) is intron. The 197 aa ORF spans local
+                                 positions 30-623, of which 252 bp (42.4%) falls
+                                 inside introns 2 and 3. The true spliced mRNA is
+                                 only 706 bp.
+
+Verify exon structure per candidate against
+results/assembled/merged_assembly.gtf (which retains exon records) before relying
+on any individual peptide.
+===============================================================================

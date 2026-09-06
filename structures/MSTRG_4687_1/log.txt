@@ -1,0 +1,54 @@
+2026-04-19 07:09:26,235 Running on GPU
+2026-04-19 07:09:26,584 Found 6 citations for tools or databases
+2026-04-19 07:09:26,585 Query 1/1: MSTRG_4687_1_finger_millet_a8fb3 (length 342)
+2026-04-19 07:09:28,130 Sleeping for 10s. Reason: PENDING
+2026-04-19 07:09:38,636 Sleeping for 8s. Reason: RUNNING
+2026-04-19 07:09:47,149 Sleeping for 8s. Reason: RUNNING
+2026-04-19 07:09:55,690 Sleeping for 7s. Reason: RUNNING
+2026-04-19 07:10:03,197 Sleeping for 7s. Reason: RUNNING
+2026-04-19 07:10:10,722 Sleeping for 5s. Reason: RUNNING
+2026-04-19 07:10:16,246 Sleeping for 5s. Reason: RUNNING
+2026-04-19 07:10:21,753 Sleeping for 8s. Reason: RUNNING
+2026-04-19 07:10:30,260 Sleeping for 10s. Reason: RUNNING
+2026-04-19 07:10:40,780 Sleeping for 8s. Reason: RUNNING
+2026-04-19 07:10:49,328 Sleeping for 5s. Reason: RUNNING
+2026-04-19 07:10:55,359 Sleeping for 6s. Reason: RUNNING
+2026-04-19 07:11:01,876 Sleeping for 10s. Reason: RUNNING
+2026-04-19 07:11:12,405 Sleeping for 8s. Reason: RUNNING
+2026-04-19 07:11:20,942 Sleeping for 9s. Reason: RUNNING
+2026-04-19 07:11:30,487 Sleeping for 6s. Reason: RUNNING
+2026-04-19 07:11:37,034 Sleeping for 5s. Reason: RUNNING
+2026-04-19 07:11:53,034 Setting max_seq=512, max_extra_seq=5120
+2026-04-19 07:13:18,253 alphafold2_ptm_model_1_seed_000 recycle=0 pLDDT=84.3 pTM=0.394
+2026-04-19 07:14:11,943 alphafold2_ptm_model_1_seed_000 recycle=1 pLDDT=84.7 pTM=0.412 tol=3.97
+2026-04-19 07:14:44,996 alphafold2_ptm_model_1_seed_000 recycle=2 pLDDT=85.4 pTM=0.427 tol=2.47
+2026-04-19 07:15:17,374 alphafold2_ptm_model_1_seed_000 recycle=3 pLDDT=85.2 pTM=0.426 tol=1.99
+2026-04-19 07:15:17,375 alphafold2_ptm_model_1_seed_000 took 182.0s (3 recycles)
+2026-04-19 07:15:50,277 alphafold2_ptm_model_2_seed_000 recycle=0 pLDDT=83.5 pTM=0.362
+2026-04-19 07:16:22,842 alphafold2_ptm_model_2_seed_000 recycle=1 pLDDT=84.3 pTM=0.383 tol=12.9
+2026-04-19 07:16:55,281 alphafold2_ptm_model_2_seed_000 recycle=2 pLDDT=84.4 pTM=0.397 tol=3.36
+2026-04-19 07:17:27,729 alphafold2_ptm_model_2_seed_000 recycle=3 pLDDT=84.2 pTM=0.403 tol=1.57
+2026-04-19 07:17:27,730 alphafold2_ptm_model_2_seed_000 took 130.1s (3 recycles)
+2026-04-19 07:18:00,306 alphafold2_ptm_model_3_seed_000 recycle=0 pLDDT=85.3 pTM=0.373
+2026-04-19 07:18:32,810 alphafold2_ptm_model_3_seed_000 recycle=1 pLDDT=84.9 pTM=0.374 tol=7.52
+2026-04-19 07:19:05,333 alphafold2_ptm_model_3_seed_000 recycle=2 pLDDT=84.9 pTM=0.383 tol=3.93
+2026-04-19 07:19:37,940 alphafold2_ptm_model_3_seed_000 recycle=3 pLDDT=84.4 pTM=0.381 tol=2.11
+2026-04-19 07:19:37,940 alphafold2_ptm_model_3_seed_000 took 130.0s (3 recycles)
+2026-04-19 07:20:10,616 alphafold2_ptm_model_4_seed_000 recycle=0 pLDDT=84.7 pTM=0.377
+2026-04-19 07:20:43,077 alphafold2_ptm_model_4_seed_000 recycle=1 pLDDT=85.1 pTM=0.385 tol=8.38
+2026-04-19 07:21:15,716 alphafold2_ptm_model_4_seed_000 recycle=2 pLDDT=85.2 pTM=0.385 tol=3.27
+2026-04-19 07:21:48,186 alphafold2_ptm_model_4_seed_000 recycle=3 pLDDT=85.2 pTM=0.391 tol=3.56
+2026-04-19 07:21:48,187 alphafold2_ptm_model_4_seed_000 took 130.0s (3 recycles)
+2026-04-19 07:22:20,826 alphafold2_ptm_model_5_seed_000 recycle=0 pLDDT=85.9 pTM=0.401
+2026-04-19 07:22:53,324 alphafold2_ptm_model_5_seed_000 recycle=1 pLDDT=86.2 pTM=0.422 tol=9.49
+2026-04-19 07:23:25,864 alphafold2_ptm_model_5_seed_000 recycle=2 pLDDT=86.8 pTM=0.424 tol=3.08
+2026-04-19 07:23:58,403 alphafold2_ptm_model_5_seed_000 recycle=3 pLDDT=86.2 pTM=0.435 tol=3.02
+2026-04-19 07:23:58,404 alphafold2_ptm_model_5_seed_000 took 130.1s (3 recycles)
+2026-04-19 07:23:58,593 reranking models by 'plddt' metric
+2026-04-19 07:24:26,105 Relaxation took 27.5s
+2026-04-19 07:24:26,106 rank_001_alphafold2_ptm_model_5_seed_000 pLDDT=86.2 pTM=0.435
+2026-04-19 07:24:26,106 rank_002_alphafold2_ptm_model_4_seed_000 pLDDT=85.2 pTM=0.391
+2026-04-19 07:24:26,106 rank_003_alphafold2_ptm_model_1_seed_000 pLDDT=85.2 pTM=0.426
+2026-04-19 07:24:26,106 rank_004_alphafold2_ptm_model_3_seed_000 pLDDT=84.4 pTM=0.381
+2026-04-19 07:24:26,106 rank_005_alphafold2_ptm_model_2_seed_000 pLDDT=84.2 pTM=0.403
+2026-04-19 07:24:27,464 Done
