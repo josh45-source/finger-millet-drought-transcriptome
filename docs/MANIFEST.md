@@ -1,8 +1,9 @@
 # MANIFEST — Finger Millet Drought Transcriptome, Deposition Package
 
-**Regenerated:** 28 August 2026, from the package as it actually stands.
+**Regenerated:** 28 August 2026, from the package as it actually stands;
+`manuscript/` added and every count and size re-derived 6 September 2026.
 **Package root:** `/mnt/d/finger_millet_zenodo/`
-**Contents:** **210 files** across **23 directories**, **162,700,800 B (155.2 MB)**.
+**Contents:** **217 files** across **25 directories**, **164,152,862 B (156.5 MB)**.
 
 Reference assembly used throughout: **GCA_032690845.1** (`Eleusine_coracana_v1.0`,
 *Eleusine coracana* subsp. *coracana* cv. KNE 796-S) — chromosome-scale, 18
@@ -27,7 +28,7 @@ programmatically; see `docs/VERIFICATION.md` §2 (second verification).
 | `.gitignore` | 96 B | Excludes OS cruft (`.DS_Store`, `Thumbs.db`) from the deposit and from any mirror repository. |
 | `CITATION.cff` | 6,267 B | Citation metadata, CFF 1.2.0. `type: dataset`, version 2.0.0, dual licence `[MIT, CC-BY-4.0]`. References Hatakeyama 2018 (RNA-seq source), GCA_032690845.1 (genome) and Lloyd et al. 2019 (ITR homology-rate context). |
 | `LICENSE` | 25,049 B | Dual-licence statement plus both full texts: MIT (Part 1, governs `scripts/`) and CC BY 4.0 (Part 2, governs everything else). Includes a list of third-party material covered by neither. CC BY legal code retrieved from creativecommons.org on 28 Aug 2026 and reproduced unaltered. |
-| `README.md` | 26,609 B | Package overview: corrected headline results, the lead candidate, data sources, workflow, repository structure, known defects, limitations, reproducibility status, AI-use disclosure, licence and citation. |
+| `README.md` | 26,853 B | Package overview: corrected headline results, the lead candidate, data sources, workflow, repository structure, known defects, limitations, reproducibility status, AI-use disclosure, licence and citation. |
 
 ## 2. `workflow/` — pipeline definition
 
@@ -113,7 +114,7 @@ that produced them, and so the corrections can be checked against them.
 
 | File | Size | Description |
 |---|---|---|
-| `README.md` | 1,837 B | Status marker: original analysis, superseded, do not quote these numbers. Lists the four defects and the v2 files that supersede each table. |
+| `README.md` | 26,853 B | Status marker: original analysis, superseded, do not quote these numbers. Lists the four defects and the v2 files that supersede each table. |
 | `all_de_results.tsv` | 11,303,880 B | **v1, superseded.** Complete DESeq2 output for all 88,336 tested transcripts. Produced from the `round(cov * 100)` input. |
 | `drought_upregulated_novel_genes.tsv` | 300,440 B | **v1, superseded.** The original headline result: 2,354 novel class-`u` drought-upregulated transcripts at padj < 0.05 and log2FC >= 1.5, sorted by padj. |
 | `iprscan5-R20260417-190817-0777-66196655-p1m.tsv` | 382,359 B | InterProScan 5 output from the EBI REST service, job submitted 17 Apr 2026 19:08:17. 37 of 44 proteins annotated across 18 member databases. InterProScan version is not recorded in the file. |
@@ -166,7 +167,7 @@ that produced them, and so the corrections can be checked against them.
 
 | File | Size | Description |
 |---|---|---|
-| `README.md` | 2,035 B | Status marker: corrected re-analysis, current. v1-vs-v2 comparison table, contents, and the read-length rationale. |
+| `README.md` | 26,853 B | Status marker: corrected re-analysis, current. v1-vs-v2 comparison table, contents, and the read-length rationale. |
 
 ### 6.1 `results_v2/de/` — differential expression
 
@@ -356,9 +357,48 @@ have been sanitised to read `$FM_STRUCTURES` and now default to `./structures`.
 | File | Size | Description |
 |---|---|---|
 | `DE_COMPARISON.md` | 19,983 B | Full reconciliation of the original analysis against the corrected re-analysis: counts, retained/lost/gained, tier distributions, per-candidate comparison, top-50 membership, log2FC correlation, model specification, limitations. |
-| `MANIFEST.md` | 40,910 B | This file. Regenerated from the package as it stands; every size and count is derived, not typed. |
+| `MANIFEST.md` | 44,924 B | This file. Regenerated from the package as it stands; every size and count is derived, not typed. |
 | `MANUSCRIPT_CORRECTIONS.md` | 33,153 B | Every claim in the manuscript draft affected by the re-analysis, classified A (numeric swap), B (rewritten argument), C (conclusion changes), D (confirmed correct), E (not fixable). Carries a dated correction notice for three MSA figures that were wrong in its first version. |
 | `VERIFICATION.md` | 40,170 B | Pre-publication audit of this package (first pass 28 Aug 2026) plus the second verification appended after rectification. File integrity, format validation, byte-identity, number recomputation, script review, privacy scan, reproducibility gaps. |
+
+---
+
+## 10a. `manuscript/` — the preprint and its archive
+
+Added 6 September 2026, after the rest of this package had been numbered. It is
+sectioned `10a` rather than `11` **so that no existing section number moves**: the
+cross-references to §11–§14 in `docs/VERIFICATION.md` and elsewhere were written against
+the numbering below and remain valid.
+
+All seven files were copied in from the working manuscript directory and are
+**byte-identical to their sources** — verified by `cmp` at the time of the copy. The
+package copy is now the canonical one; the outside working copy is a duplicate and will
+drift if it is edited.
+
+| File | Size | Description |
+|---|---|---|
+| `finger_millet_preprint_v2.md` | 41,782 B | **The live draft, and the only current manuscript file in this package.** Reports the corrected re-analysis: 21,864 class-`u` transcripts, 2,422 drought-upregulated, 1,532 (63.3%) with no Swiss-Prot homolog, 1,278 zero in all three controls. Carries a dated revision note retracting the 99.6% figure as a software defect (§3.4, §4.2), a limitations section (§4.6) stating the plant-age confound, the treatment of the six libraries as independent samples, and the biological—not technical—nature of the replication. Six numbered figure legends, each naming a file in `figures_v2/`. |
+
+### 10a.1 `manuscript/archive/`
+
+**Nothing in this directory is current, in any format.** It holds the two unmodified 17
+April 2026 drafts, the pandoc HTML rendering of each, and the corrected v1 draft that the
+live v2 draft supersedes. The four 17 April files still state the withdrawn **99.6%**
+figure and are retained only so the corrections can be audited against the text they
+corrected.
+
+| File | Size | Description |
+|---|---|---|
+| `README.md` | 26,853 B | States that `../finger_millet_preprint_v2.md` is the live draft, tabulates what each archived file is, and records that the two HTML renderings were moved out of the live directory on 5 Sep 2026 because they sat there under the live file names while containing the uncorrected text. Its reference to "the accompanying Zenodo deposit" now means the package it sits in; `docs/MANUSCRIPT_CORRECTIONS.md` resolves from here as `../../docs/`. |
+| `finger_millet_preprint.md` | 33,426 B | The v1 draft, corrected in place during the August 2026 audit and again on 5 Sep 2026. **Superseded** by the live v2 draft, which it duplicates with less detail. Retained so that no uncorrected version of the manuscript exists on disk outside the four dated originals below. Not a draft under development. |
+| `finger_millet_preprint_ORIGINAL_17Apr2026.md` | 28,951 B | Unmodified 17 April 2026 text of the v1 draft. **Never edited.** Retains its April 2026 mtime and is byte-identical to the pre-audit copy. Contains the 99.6% claim and every other subsequently revised statement. |
+| `finger_millet_preprint_ORIGINAL_17Apr2026.html` | 659,111 B | Pandoc rendering of the file above, produced 17 April 2026 and never regenerated. **Stale; must not be circulated.** Until 5 Sep 2026 it sat under the live name `finger_millet_preprint.html`. |
+| `finger_millet_preprint_v2_ORIGINAL_17Apr2026.md` | 25,714 B | Unmodified 17 April 2026 text of the v2 draft. **Never edited.** Retains its April 2026 mtime and is byte-identical to the pre-audit copy. |
+| `finger_millet_preprint_v2_ORIGINAL_17Apr2026.html` | 655,596 B | Pandoc rendering of the file above, produced 17 April 2026 and never regenerated. **Stale; must not be circulated.** Until 5 Sep 2026 it sat under the live name `finger_millet_preprint_v2.html`, so opening the apparently-current HTML gave the uncorrected paper. |
+
+Every correction applied to the 17 April text is itemised in
+`docs/MANUSCRIPT_CORRECTIONS.md`; the underlying numeric reconciliation is in
+`docs/DE_COMPARISON.md`.
 
 ---
 
@@ -496,8 +536,9 @@ is excluded because it does not support a drought-enrichment claim: organism
 *Arabidopsis thaliana*, 9 genes mapped of 29 submitted, and **no drought-, ABA-, ROS- or
 osmotic-stress-related term among the 28 returned**.
 
-**13.3 No manuscript or bibliography.** `paper/main.tex` is an empty LaTeX skeleton and no
-`references.bib` exists anywhere. The source project is **not a git repository**, so no
+**13.3 No LaTeX source or bibliography.** The manuscript itself **is** deposited, as
+markdown, in `manuscript/` — see §10a. What is missing is its typesetting source:
+`paper/main.tex` is an empty LaTeX skeleton and no `references.bib` exists anywhere. The source project is **not a git repository**, so no
 commit history accompanies this deposit. The manuscript-level consequences of the
 re-analysis are in `docs/MANUSCRIPT_CORRECTIONS.md`.
 
@@ -532,4 +573,4 @@ carriage return in the final column is inconvenient.
 return HTTP 200: the genome (331.1 MB), the annotation (9.1 MB) and Swiss-Prot (89.4 MB).
 The caveat in §11.1 that they had never been fetched is now discharged.
 
-**Total: 210 files across 23 directories, 162,700,800 B (155.2 MB).**
+**Total: 217 files across 25 directories, 164,152,862 B (156.5 MB).**

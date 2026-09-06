@@ -200,8 +200,8 @@ DESeq2's size factors absorb entirely, so the choice affects no result.
 ## Repository structure
 
 ```
-workflow/            Snakefile, config.yaml, setup.sh                            3 files
-scripts/             maintained analysis scripts (v1 and v2)                     8 files
+workflow/            Snakefile, config.yaml, setup.sh, LICENSE                   4 files
+scripts/             maintained analysis scripts (v1 and v2) + LICENSE          10 files
   reconstructed/     20 scripts recovered verbatim from shell history + README  21 files
 results_v1/          ORIGINAL analysis — superseded, retained as record         18 files
   novel_genes/       novel_genes.gtf, blast_results.txt
@@ -215,13 +215,15 @@ results_v2/          CORRECTED re-analysis — use these                        
   annotation/        corrected BLASTx join, all three annotation tables
   blast/             raw BLASTx output, query BED, run script
 structures/          ColabFold models, MSAs, scores, query CSVs                101 files
-figures_v2/          10 plots, all reproducible from deposited inputs           10 files
+figures_v2/          11 plots, all reproducible from deposited inputs           11 files
 logs/                run logs                                                    5 files
-docs/                MANIFEST, DE_COMPARISON, MANUSCRIPT_CORRECTIONS, VERIFICATION
-LICENSE, CITATION.cff, README.md
+manuscript/          finger_millet_preprint_v2.md — the live draft                1 file
+  archive/           17 Apr originals (.md + .html), superseded v1, README       6 files
+docs/                MANIFEST + three audit / reconciliation documents           4 files
+(root)               LICENSE, CITATION.cff, README.md, .gitignore                4 files
 ```
 
-**204 files, ~155 MB.**
+**217 files, ~156.5 MB.**
 
 To run any deposited script, first make `results_v1` visible under the name the scripts
 expect:

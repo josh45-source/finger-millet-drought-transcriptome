@@ -1,3 +1,2 @@
-# OS cruft — these should never enter the deposit or a mirror repository.
 .DS_Store
 Thumbs.db
